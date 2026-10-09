@@ -1,0 +1,18 @@
+SCAMUndo — URL Phishing Detection Model
+Model Contributor: Abhinav S
+Purpose:
+Uses machine learning to analyse URL characteristics and estimate whether a website link may be legitimate or associated with phishing.
+Dataset: PhiUSIIL Phishing URL (Website) Dataset
+Provider: UCI Machine Learning Repository.
+Official Dataset Link:
+https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset
+Dataset Description:
+A labeled dataset containing legitimate and phishing URLs, with URL-based and website-related features designed to support machine learning research on phishing detection.
+Feature Examples:
+- URL length and number of dots or hyphens.
+- HTTPS usage and IP-address-based URLs.
+- Subdomains and suspicious URL patterns.
+- Domain and website-related characteristics.
+- Other extracted features available in the dataset.
+Algorithm: XGBoost (confirm against the final trained model and project configuration before submission).
+Limitation: Detection performance depends on the quality of the extracted features and the training data. A URL prediction is a risk estimate and does not guarantee that a website is safe or malicious.
