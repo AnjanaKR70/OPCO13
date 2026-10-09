@@ -70,6 +70,18 @@ Incoming content (WhatsApp, Telegram, other apps)
 
 ---
 
+## Machine Learning Models
+
+SCAMഉണ്ടോ uses two separate ML pipelines to assess potential threats before users open documents or links.
+
+* **PDF & Document Threat Detection — Afshin Muhammed K P:** Uses a LightGBM classifier trained on document security features to identify potentially benign or malicious files. Extracted features include metadata, embedded objects, macros, URLs, strings and entropy.
+* **URL Phishing Detection — Abhinav S:** Uses a URL classification model to assess phishing risk based on URL structure and other extracted characteristics.
+
+The models contribute to SCAMഉണ്ടോ's risk verdict system, which presents a threat assessment and explanation to help users make safer decisions.
+
+**Note:** An ML prediction is a risk estimate, not a guarantee that a file or URL is safe.
+
+---
 
 ## Contribution
 Mobile app development:Anjana K R,Aneena O T
@@ -77,6 +89,4 @@ Mobile app development:Anjana K R,Aneena O T
 
 
 
-
-ML model training:Afshin muhammed K P,Abhinav S
     
