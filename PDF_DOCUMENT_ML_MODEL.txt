@@ -1,0 +1,34 @@
+SCAMUndo — PDF & Document ML Model
+
+**Model Contributor:** Afshin Muhammed K P
+
+**Purpose:**
+The document-scanning pipeline extracts static security features from PDF files and uses a LightGBM classifier to estimate whether a document may be benign or malicious.
+
+**Dataset:** CIC-Evasive-PDFMal2022
+
+**Provider:** Canadian Institute for Cybersecurity, University of New Brunswick, Canada.
+
+**Official Dataset Link:**
+https://www.unb.ca/cic/datasets/pdfmal-2022.html
+
+**Alternative Download Source:**
+https://www.kaggle.com/datasets/dhoogla/cic-evasive-pdfmal2022
+
+**Dataset Description:**
+CIC-Evasive-PDFMal2022 is a labeled dataset containing benign and malicious PDF samples, designed to support research into PDF malware detection, including evasive threats. It provides static features extracted from PDF structures and metadata for machine learning classification.
+
+**Feature Examples:**
+- PDF structure and metadata.
+- Embedded files and objects.
+- JavaScript and automatic-action indicators.
+- Form-related objects, filters and object counts.
+- URI and other suspicious structural indicators.
+
+**Algorithm:** LightGBM (Gradient Boosting Classifier).
+
+**Workflow:** The system extracts document features, processes them into the model's expected input format, and generates a prediction used by SCAMUndo's risk-assessment system.
+
+**Limitations:** The dataset is PDF-focused. Support for Office formats requires compatible feature extraction and separate validation. Model predictions are risk estimates and do not guarantee that a document is safe or malicious.
+
+**Project:** SCAMUndo — Machine Learning-Based Document and URL Threat Detection.
