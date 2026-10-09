@@ -1,0 +1,8 @@
+﻿Analyzing lib...
+
+  error - theme\app_theme.dart:58:18 - The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.  - argument_type_not_assignable
+warning - services\issues_service.dart:1:8 - Unused import: 'package:flutter/material.dart'. Try removing the import directive. - unused_import
+   info - screens\alerts_tab.dart:74:25 - Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation. - prefer_const_constructors
+   info - screens\settings_tab.dart:102:13 - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+
+4 issues found.
