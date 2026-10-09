@@ -73,5 +73,10 @@ Incoming content (WhatsApp, Telegram, other apps)
 
 ## Contribution
 Mobile app development:Anjana K R,Aneena O T
+
+
+
+
+
 ML model training:Afshin muhammed K P,Abhinav S
     
