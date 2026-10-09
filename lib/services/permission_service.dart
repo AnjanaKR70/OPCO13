@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Represents a single app that can be protected for scam scanning.
 class ProtectedApp {
@@ -20,6 +21,12 @@ class PermissionState extends ChangeNotifier {
   bool locationAllowed = false;
   bool smsAllowed = false;
   bool googleAllowed = false;
+  bool overlayAllowed = false;
+
+  // ── Alert Settings ─────────────────────────────────────────────────────
+  bool alertsEnabled = true;
+  bool vibrationEnabled = true;
+  bool soundEnabled = true;
 
   // ── App Protection ─────────────────────────────────────────────────────
   bool _protectAll = true;
@@ -37,6 +44,39 @@ class PermissionState extends ChangeNotifier {
   ];
 
   List<ProtectedApp> get protectedApps => List.unmodifiable(_protectedApps);
+
+  PermissionState() {
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    alertsEnabled = prefs.getBool('alerts_enabled') ?? true;
+    vibrationEnabled = prefs.getBool('vibration_enabled') ?? true;
+    soundEnabled = prefs.getBool('sound_enabled') ?? true;
+    notifyListeners();
+  }
+
+  Future<void> setAlertsEnabled(bool value) async {
+    alertsEnabled = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('alerts_enabled', value);
+    notifyListeners();
+  }
+
+  Future<void> setVibrationEnabled(bool value) async {
+    vibrationEnabled = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('vibration_enabled', value);
+    notifyListeners();
+  }
+
+  Future<void> setSoundEnabled(bool value) async {
+    soundEnabled = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('sound_enabled', value);
+    notifyListeners();
+  }
 
   // ── Permission Setters ─────────────────────────────────────────────────
 
@@ -62,6 +102,11 @@ class PermissionState extends ChangeNotifier {
 
   void grantGoogle(bool granted) {
     googleAllowed = granted;
+    notifyListeners();
+  }
+
+  void grantOverlay(bool granted) {
+    overlayAllowed = granted;
     notifyListeners();
   }
 
