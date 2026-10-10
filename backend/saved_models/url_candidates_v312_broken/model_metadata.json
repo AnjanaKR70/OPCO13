@@ -1,0 +1,12 @@
+{
+  "model": "LightGBM",
+  "threshold": 0.3,
+  "imputer": "median",
+  "n_features": 50,
+  "phiusiil_included": false,
+  "val_pr_auc": 0.9741,
+  "test_f1": 0.8512,
+  "test_fpr": 0.0926,
+  "test_fnr": 0.0367,
+  "decision": "NEEDS FURTHER MODEL IMPROVEMENT"
+}

@@ -1,0 +1,112 @@
+============================================================
+SCAMundo URL Phishing Pipeline v3
+============================================================
+
+[1] Loading PhiUSIIL dataset...
+  PhiUSIIL dataset not found. Skipping.
+[2] Skipping archive(1).zip (Parquet) to prevent pyarrow BytesIO crash on Windows
+[3] Loading archive(2).zip...
+[4] Loading archive(3).zip...
+[5] Loading archive.zip...
+[6] Loading Tranco top 50k as legitimate reference...
+
+Total collected raw records: 1144373
+
+[PHASE] Normalization & Conflict Resolution
+After dropping malformed/un-normalizable URLs: 1144372
+Conflicting URLs (different labels for same URL): 4
+After removing conflicts: 1144363
+After exact deduplication: 1037097
+Final Class Distribution: 0 (Safe) = 793590, 1 (Phish) = 243507
+
+[PHASE] Domain Extraction
+Unique registered domains: 163815
+
+[PHASE] Domain-Aware Splitting
+Train domains: 114670, Val domains: 24572, Test domains: 24573
+Leakage Train<->Val: 0
+Leakage Train<->Test: 0
+Leakage Val<->Test: 0
+
+[PHASE] Synthetic Augmentation
+Added 15000 synthetic legitimate URLs to train set.
+New Train size: 426906 (Safe: 311223, Phish: 115683)
+Train Legit URLs with query params: 55985
+Train Legit URLs with deep paths: 184672
+
+[PHASE] Feature Extraction
+  Extracting 0/426906...
+  Extracting 50000/426906...
+  Extracting 100000/426906...
+  Extracting 150000/426906...
+  Extracting 200000/426906...
+  Extracting 250000/426906...
+  Extracting 300000/426906...
+  Extracting 350000/426906...
+  Extracting 400000/426906...
+  Extracting 0/68350...
+  Extracting 50000/68350...
+  Extracting 0/556841...
+  Extracting 50000/556841...
+  Extracting 100000/556841...
+  Extracting 150000/556841...
+  Extracting 200000/556841...
+  Extracting 250000/556841...
+  Extracting 300000/556841...
+  Extracting 350000/556841...
+  Extracting 400000/556841...
+  Extracting 450000/556841...
+  Extracting 500000/556841...
+  Extracting 550000/556841...
+
+[PHASE] Preprocessing
+Preprocessing fitted on Train. X_train shape: (426906, 50)
+
+[PHASE] Training Candidates
+  LogisticRegression   - Train: 2.0s | Test F1: 0.4935 | FPR: 0.0053 | FNR: 0.6646
+  RandomForest         - Train: 8.6s | Test F1: 0.3452 | FPR: 0.7860 | FNR: 0.0543
+  XGBoost              - Train: 3.1s | Test F1: 0.4084 | FPR: 0.5732 | FNR: 0.0822
+  LightGBM             - Train: 2.5s | Test F1: 0.4544 | FPR: 0.4093 | FNR: 0.1651
+  CatBoost             - Train: 8.2s | Test F1: 0.4691 | FPR: 0.3819 | FNR: 0.1674
+
+Selected Model: LogisticRegression
+
+[PHASE] Robustness Testing
+  LEGIT | Pred: SAFE (1.9%) | https://www.google.com/
+  LEGIT | Pred: SAFE (0.5%) | https://www.google.com/search?q=hello
+  LEGIT | Pred: SAFE (1.2%) | https://www.youtube.com/results?search_query=test
+  LEGIT | Pred: SAFE (46.1%) | https://en.wikipedia.org/wiki/Machine_learning
+  LEGIT | Pred: SAFE (0.5%) | https://www.amazon.com/s?k=laptop
+  LEGIT | Pred: SAFE (2.5%) | https://www.microsoft.com/en-us/
+  LEGIT | Pred: SAFE (3.3%) | https://www.apple.com/
+  LEGIT | Pred: SAFE (5.7%) | https://github.com/search?q=machine+learning
+  LEGIT | Pred: SAFE (40.8%) | https://stackoverflow.com/questions/tagged/python
+  LEGIT | Pred: SAFE (2.8%) | https://www.example.com/products/item?id=12345&ref=homepage
+  LEGIT | Pred: PHISH (97.4%) | https://news.bbc.co.uk/article/2024/technology
+  LEGIT | Pred: SAFE (26.2%) | https://docs.python.org/3/library/json.html
+  LEGIT | Pred: SAFE (2.7%) | https://www.linkedin.com/in/johndoe/
+  LEGIT | Pred: PHISH (100.0%) | https://mail.google.com/mail/u/0/#inbox
+  LEGIT | Pred: SAFE (17.9%) | https://www.paypal.com/myaccount/summary
+  PHISH | Pred: PHISH (100.0%) | http://paypal-secure-login.evil.xyz/verify?user=123
+  PHISH | Pred: PHISH (100.0%) | http://192.168.1.100/admin/login.php
+  PHISH | Pred: PHISH (100.0%) | https://google.account-verify.tk/signin
+  PHISH | Pred: PHISH (100.0%) | http://amazon-security-alert.xyz/update-billing
+  PHISH | Pred: PHISH (100.0%) | https://login.microsoft.update.evil.com/password
+  PHISH | Pred: PHISH (100.0%) | http://apple-id-verify.ml/confirm-account
+  PHISH | Pred: PHISH (100.0%) | http://secure-banking-update.click/credential
+  PHISH | Pred: PHISH (100.0%) | https://facebook.login.evil.com:8080/verify
+  PHISH | Pred: PHISH (93.5%) | http://xn--pypal-4qa.com/login
+  PHISH | Pred: PHISH (95.1%) | http://bit.ly/3xAbCd
+  PHISH | Pred: PHISH (98.1%) | https://www.evil.com/redirect?url=http://phishing.com&login=true
+  PHISH | Pred: PHISH (100.0%) | http://192.168.0.1:4443/wp-admin/login.php?user=admin
+  PHISH | Pred: PHISH (97.7%) | https://google.example.com/login
+  PHISH | Pred: PHISH (92.9%) | https://example.com/google/login
+Legit robustness: 13/15 correct
+Phish robustness: 14/14 correct
+
+[PHASE] Latency & API Compat
+Latency: Avg=4.05ms, Median=4.02ms, Max=10.31ms
+
+[PHASE] Production Hashes Verification
+  SUCCESS: All production artifacts remain byte-for-byte unchanged.
+Pipeline Complete.

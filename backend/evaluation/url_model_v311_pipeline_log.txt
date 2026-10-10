@@ -1,0 +1,167 @@
+============================================================
+SCAMundo URL Phishing Pipeline v3.11
+============================================================
+Production hashes recorded: 5 files
+  url_model.joblib: 8d730d74ca4f76f2e70cab7db181b3225aca649fe3813d66c06c9f48639b2067
+  url_imputer.joblib: 9fb9dbdaa13ea50cfc81190310c2d4de81b72ebe6c296f11a788bbce20ed6f87
+  url_scaler.joblib: 3f2879c2ff14c47399b1fac2f5411ac4c48f39109912b536f943e1e1dab5a57c
+  url_feature_columns.joblib: f95b9bdad54feaccf2387f123c08a81ae07583e90cabf456f24a6da8e4ac6925
+  model_metadata.json: fabe7f79ad612c940aa0f967e9610018e12a643b513379e5cbde3ef759595032
+
+[PhiUSIIL] EXCLUDED — file not found on disk. This is a known limitation.
+
+[archive(1)] Recovering Parquet files by extracting to disk...
+  Recovered 11430 rows.
+
+[archive(2)] Loading strictly benign/phishing...
+  corrected: 522142 rows (benign+phishing only; malware/defacement dropped)
+  correct phishing: 95913 rows
+
+[archive(3)] Loading benign only (excluding generic 'malicious')...
+  Accepted 316254 benign rows. 'malicious' class excluded (unverified phishing semantics).
+
+[archive] Loading binary label features...
+  Accepted 160064 rows.
+
+[Tranco] Loading top 50k as synthetic reference domains...
+
+Total raw records: 1155803
+Conflicts removed: 4
+Duplicates removed: 110050
+Final dataset: 1045743 | SAFE: 799243 | PHISH: 246500
+Unique registered domains: 167887
+
+Per-source breakdown:
+  archive(1)_Testing.parquet: 3763 (SAFE: 1886, PHISH: 1877)
+  archive(1)_Training.parquet: 7653 (SAFE: 3829, PHISH: 3824)
+  archive(2)_correct: 2 (SAFE: 0, PHISH: 2)
+  archive(2)_corrected: 515172 (SAFE: 428156, PHISH: 87016)
+  archive(3)_balanced: 316180 (SAFE: 316180, PHISH: 0)
+  archive_features: 154559 (SAFE: 778, PHISH: 153781)
+  tranco_reference: 48414 (SAFE: 48414, PHISH: 0)
+
+[SPLIT] Domain-aware GroupShuffleSplit...
+Train: 424950 (SAFE:286856, PHISH:138094) | Domains: 117520
+Val:   85438 (SAFE:64998, PHISH:20440) | Domains: 25183
+Test:  535355 (SAFE:447389, PHISH:87966) | Domains: 25184
+Leakage Train<->Val: 0 | Train<->Test: 0 | Val<->Test: 0
+
+[AUG] Synthetic augmentation (train only, domain-consistent)...
+Added 10000 synthetic URLs. New train size: 434950
+
+[FEATURES] Extracting 50-feature vectors...
+  [train] Extracting 0/434950...
+  [train] Extracting 100000/434950...
+  [train] Extracting 200000/434950...
+  [train] Extracting 300000/434950...
+  [train] Extracting 400000/434950...
+  [val] Extracting 0/85438...
+  [test] Extracting 0/535355...
+  [test] Extracting 100000/535355...
+  [test] Extracting 200000/535355...
+  [test] Extracting 300000/535355...
+  [test] Extracting 400000/535355...
+  [test] Extracting 500000/535355...
+Preprocessing fitted on train (strategy=median). Shape: (434950, 50)
+
+[TRAINING] Training 5 candidate models...
+  [LogReg_None] Train: 2.5s | Val PR-AUC: 0.9208 | Val ROC-AUC: 0.9594
+  [LogReg_Bal] Train: 2.7s | Val PR-AUC: 0.9195 | Val ROC-AUC: 0.9613
+  [XGBoost] Train: 2.0s | Val PR-AUC: 0.9858 | Val ROC-AUC: 0.9938
+  [LightGBM] Train: 1.6s | Val PR-AUC: 0.9842 | Val ROC-AUC: 0.9933
+  [CatBoost] Train: 5.6s | Val PR-AUC: 0.9844 | Val ROC-AUC: 0.9934
+
+[THRESHOLD SELECTION] Operating points on validation (FPR ceilings)...
+Model           | FPR Cap  | Thresh | Prec   | Recall | F1     | FPR    | FNR   
+--------------------------------------------------------------------------------
+  LogReg_None     | <=1%     | No valid threshold found
+  LogReg_None     | <=2%     | 0.9    | 0.9333 | 0.6669 | 0.7779 | 0.015  | 0.3331
+  LogReg_None     | <=5%     | 0.5    | 0.8625 | 0.8611 | 0.8618 | 0.0432 | 0.1389
+  LogReg_Bal      | <=1%     | No valid threshold found
+  LogReg_Bal      | <=2%     | No valid threshold found
+  LogReg_Bal      | <=5%     | 0.7    | 0.8648 | 0.8512 | 0.858  | 0.0418 | 0.1488
+  XGBoost         | <=1%     | No valid threshold found
+  XGBoost         | <=2%     | 0.7    | 0.9427 | 0.9577 | 0.9502 | 0.0183 | 0.0423
+  XGBoost         | <=5%     | 0.2    | 0.8762 | 0.9794 | 0.9249 | 0.0435 | 0.0206
+  LightGBM        | <=1%     | No valid threshold found
+  LightGBM        | <=2%     | 0.7    | 0.9405 | 0.9607 | 0.9505 | 0.0191 | 0.0393
+  LightGBM        | <=5%     | 0.2    | 0.8688 | 0.9793 | 0.9207 | 0.0465 | 0.0207
+  CatBoost        | <=1%     | No valid threshold found
+  CatBoost        | <=2%     | 0.7    | 0.9426 | 0.9612 | 0.9518 | 0.0184 | 0.0388
+  CatBoost        | <=5%     | 0.15   | 0.8731 | 0.9797 | 0.9233 | 0.0448 | 0.0203
+
+Selected: CatBoost @ threshold 0.15 (best recall at FPR<=5%)
+
+[FINAL TEST] Evaluating frozen candidate on unseen test set...
+NOTE: Test set was NOT used for model or threshold selection.
+  Accuracy:  0.4226
+  Precision: 0.2140
+  Recall:    0.9408
+  F1:        0.3487
+  ROC-AUC:   0.7715
+  PR-AUC:    0.5294
+  TP: 82760 | TN: 143487 | FP: 303902 | FN: 5206
+  FPR: 0.6793 | FNR: 0.0592
+  SAFE   precision: 0.9650 | recall: 0.3207
+  PHISH  precision: 0.2140 | recall: 0.9408
+
+[ECE] Weighted Expected Calibration Error (10 bins): 0.4251
+
+[ROBUSTNESS] Legitimate URL suite...
+  LEGIT [OK] conf=0.002 | https://www.google.com/
+  LEGIT [OK] conf=0.004 | https://www.google.com/search?q=hello
+  LEGIT [OK] conf=0.002 | https://www.youtube.com/results?search_query=test
+  LEGIT [OK] conf=0.077 | https://en.wikipedia.org/wiki/Machine_learning
+  LEGIT [OK] conf=0.001 | https://www.amazon.com/s?k=laptop
+  LEGIT [OK] conf=0.004 | https://www.microsoft.com/en-us/
+  LEGIT [OK] conf=0.001 | https://www.apple.com/
+  LEGIT [FAIL] conf=0.963 | https://github.com/search?q=machine+learning
+  LEGIT [FAIL] conf=0.942 | https://stackoverflow.com/questions/tagged/python
+  LEGIT [OK] conf=0.002 | https://www.example.com/products/item?id=12345&ref=homepage
+  LEGIT [FAIL] conf=0.996 | https://news.bbc.co.uk/article/2024/technology
+  LEGIT [FAIL] conf=0.915 | https://docs.python.org/3/library/json.html
+  LEGIT [OK] conf=0.004 | https://www.linkedin.com/in/johndoe/
+  LEGIT [FAIL] conf=0.999 | https://mail.google.com/mail/u/0/#inbox
+  LEGIT [FAIL] conf=0.296 | https://www.paypal.com/myaccount/summary
+Legitimate robustness: 9/15
+  PHISH [OK] conf=1.000 | http://paypal-secure-login.evil.xyz/verify?user=123
+  PHISH [OK] conf=1.000 | http://192.168.1.100/admin/login.php
+  PHISH [OK] conf=1.000 | https://google.account-verify.tk/signin
+  PHISH [OK] conf=1.000 | http://amazon-security-alert.xyz/update-billing
+  PHISH [OK] conf=1.000 | https://login.microsoft.update.evil.com/password
+  PHISH [OK] conf=1.000 | http://apple-id-verify.ml/confirm-account
+  PHISH [OK] conf=1.000 | http://secure-banking-update.click/credential
+  PHISH [OK] conf=1.000 | https://facebook.login.evil.com:8080/verify
+  PHISH [OK] conf=0.991 | http://xn--pypal-4qa.com/login
+  PHISH [OK] conf=1.000 | http://bit.ly/3xAbCd
+  PHISH [OK] conf=0.374 | https://www.evil.com/redirect?url=http://phishing.com&login=true
+  PHISH [OK] conf=1.000 | http://192.168.0.1:4443/wp-admin/login.php?user=admin
+  PHISH [OK] conf=1.000 | https://google.example.com/login
+  PHISH [OK] conf=1.000 | https://example.com/google/login
+Phishing robustness: 14/14
+
+[BRAND REGRESSION]
+  Brand safe: 3/4
+  Brand phish: 4/4
+
+[LATENCY]
+  Avg:    2.87ms
+  Median: 3.00ms
+  p95:    6.13ms
+  Max:    13.62ms
+
+[SAVE] Saving to C:\Users\Afshin muhammed k p\scamundo\hackx\jansuraksha\backend\saved_models\url_candidates_v311
+
+[PRODUCTION VERIFICATION]
+  url_model.joblib: OK (unchanged)
+  url_imputer.joblib: OK (unchanged)
+  url_scaler.joblib: OK (unchanged)
+  url_feature_columns.joblib: OK (unchanged)
+  model_metadata.json: OK (unchanged)
+  All production artifacts verified byte-for-byte unchanged.
+
+============================================================
+FINAL DECISION: NEEDS FURTHER MODEL IMPROVEMENT
+============================================================
+
+Pipeline complete.

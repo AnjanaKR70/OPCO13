@@ -1,0 +1,15 @@
+{
+  "dataset": "cic_evasive_pdfmal2022_features.csv",
+  "raw_samples": 22162,
+  "sha256_duplicates_removed": 0,
+  "final_samples": 22162,
+  "num_features": 32,
+  "feature_schema_match": true,
+  "benign_count": 9093,
+  "malicious_count": 13069,
+  "class_ratio": 1.4373,
+  "null_values": 0,
+  "infinite_values": 0,
+  "perfect_separator_features": [],
+  "f1_investigation": "Existing F1=1.0 likely due to training on trivially separable synthetic data (5000 rows with fake hashes)"
+}

@@ -1,0 +1,83 @@
+==========================================
+ SCAMundo URL Model Verification Audit 
+==========================================
+
+# PHASE 1: Inspect the existing model
+Model Metadata found. Training date: 2026-09-03T05:22:11.138972
+Type: XGBClassifier
+Feature count: 50
+Dataset size: 235370
+Pipeline successfully loaded from saved_models/
+Model class: XGBClassifier
+Model hyperparams: {'objective': 'binary:logistic', 'base_score': None, 'booster': None, 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': None, 'device': None, 'early_stopping_rounds': None, 'enable_categorical': False, 'eval_metric': 'logloss', 'feature_types': None, 'feature_weights': None, 'gamma': None, 'grow_policy': None, 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.1, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 8, 'max_leaves': None, 'min_child_weight': None, 'missing': nan, 'monotone_constraints': None, 'multi_strategy': None, 'n_estimators': 200, 'n_jobs': None, 'num_parallel_tree': None, 'random_state': 42, 'reg_alpha': None, 'reg_lambda': None, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': None, 'tree_method': None, 'validate_parameters': None, 'verbosity': 0}
+Imputer: SimpleImputer
+Scaler: StandardScaler
+Features mapped correctly? 50 == 50
+
+# PHASE 2: Inspect the training dataset
+Dataset shape: (235370, 51)
+Class distribution: Legitimate (0): 134850, Phishing (1): 100520
+Total missing values: 0
+No raw 'url' column in the processed dataset.
+Duplicate feature vectors: 128174
+
+# PHASE 3: Audit data leakage
+Number of unique feature vectors that appear in BOTH train and test sets: 10483
+WARNING: High data leakage detected. Evaluation metrics are likely inflated.
+
+# PHASE 4: Reproduce evaluation
+Accuracy: 0.9982
+Precision: 0.9999
+Recall: 0.9958
+F1-score: 0.9979
+ROC-AUC: 0.9988
+Confusion Matrix: TN=26968, FP=2, FN=84, TP=20020
+FPR: 0.0001
+FNR: 0.0042
+Inference time per URL: 0.0035 ms
+
+# PHASE 5: Independent and robustness testing
+Test 'Normal Legitimate': https://www.google.com/search?q=hello
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Suspicious keyword detected in URL structure']
+Test 'Long URL': https://www.example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['URL length is unusually high (124 characters)']
+Test 'URL with IP': http://192.168.1.100/login
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Uses raw IP address instead of a domain name', 'Uses insecure HTTP protocol (no HTTPS encryption)', 'Suspicious keyword detected in URL structure', 'High digit concentration (38.5% of URL length)']
+Test 'Suspicious subdomains': https://paypal.verification.update.evil.com/login
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Multiple phishing keywords detected (4 matches)', 'Potential brand impersonation in subdomain (e.g. paypal.evil.com)']
+Test 'Encoded characters': https://www.example.com/%20%20%20%20
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['URL obfuscation patterns detected (score: 4)']
+Test 'Brand-like terms': https://amazon-security-alert.tk/
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Suspicious keyword detected in URL structure', 'Potential brand impersonation in subdomain (e.g. paypal.evil.com)', 'Uses a top-level domain frequently associated with phishing campaigns']
+Test 'Unusual port': http://example.com:8080/path
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Uses insecure HTTP protocol (no HTTPS encryption)', 'Uses a non-standard port in the URL']
+Test 'Shortened URL': https://bit.ly/3xyz
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Uses a URL shortening service — hides true destination']
+Test 'IDN domain': https://xn--pypal-4qa.com
+  Result: Phishing, Risk: 100, Conf: 99.6
+  Reasons: ['Model detected structural patterns matching known phishing URLs']
+Test 'Query parameters': https://example.com?user=admin&token=123&session=abc
+  Result: Phishing, Risk: 98, Conf: 98.0
+  Reasons: ['Suspicious keyword detected in URL structure']
+Test 'Legit with suspicious keywords': https://blog.security-research.com/phishing-examples
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Model detected structural patterns matching known phishing URLs']
+Test 'Clearly suspicious': http://secure-update-login-appleid.com.br/login.php
+  Result: Phishing, Risk: 100, Conf: 100.0
+  Reasons: ['Uses insecure HTTP protocol (no HTTPS encryption)', 'Multiple phishing keywords detected (5 matches)', 'Potential brand impersonation in subdomain (e.g. paypal.evil.com)', 'High domain entropy (4.04) — randomly generated domain']
+
+# PHASE 6: Verify the deployed Flask API
+API Verification via internal routing mechanism.
+API simulated payload result: Action=ALLOW, Threat=None
+
+# PHASE 7: Confidence and calibration
+Confidence method: predict_proba()[sample][predicted_class] * 100
+Confidence note: Confidence is the model's predicted probability for its chosen class, NOT model accuracy

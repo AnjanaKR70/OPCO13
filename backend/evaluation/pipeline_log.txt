@@ -1,0 +1,193 @@
+======================================================================
+SCAMundo URL Model Complete Redesign Pipeline
+Started: 2026-09-22T00:25:55.997113
+======================================================================
+
+[PHASE A] Loading raw PhiUSIIL dataset...
+  Raw shape: (235795, 56)
+  Columns: ['FILENAME', 'URL', 'URLLength', 'Domain', 'DomainLength']...
+  Valid URLs: 235795
+  Original distribution: Legit=134850, Phish=100945
+  Unique domains: 157373
+
+[PHASE B] Duplicate Analysis...
+  Exact URL duplicates: 425
+  After dedup: 235370 (removed 425)
+  Unique domains after dedup: 157373
+  Class dist after dedup: Legit=134850, Phish=100520
+  Domains with >1 URL: 5896
+
+[PHASE C] Legitimate URL Quality Analysis...
+  Legit with query params (?): 0
+  Legit with deep paths (>3 /): 0
+  Legit with length > 50: 19
+  Legit with hyphens: 10064
+  Legit with numbers: 3560
+  Legit with subdomains (>2 dots): 19989
+  Phish with query params: 6134
+
+  Searching for additional legitimate URL datasets locally...
+  Found additional datasets: ['Benign.zip']
+
+[PHASE D] Domain-Aware Splitting...
+  Train: 157235 (Legit=91079, Phish=66156)
+  Val:   31333 (Legit=20572, Phish=10761)
+  Test:  46802 (Legit=23199, Phish=23603)
+  Domain leakage train<->val: 0
+  Domain leakage train<->test: 0
+  Domain leakage val<->test: 0
+
+[PHASE E] Synthetic Legitimate URL Augmentation (training set only)...
+  Train legit with query params: 0 / 91079
+  Generated 13661 synthetic legitimate URLs
+  Augmentation ratio: 13661/91079 = 15.0%
+  Synthetic domains subset of train domains: True
+  Augmented training size: 170896 (Legit=104740, Phish=66156)
+
+[PHASE F] Feature Extraction using redesigned extractor (v2)...
+  Extracting training features...
+    Train progress: 20000/170896 (18390 URLs/s)
+    Train progress: 40000/170896 (17117 URLs/s)
+    Train progress: 60000/170896 (17037 URLs/s)
+    Train progress: 80000/170896 (17095 URLs/s)
+    Train progress: 100000/170896 (17062 URLs/s)
+    Train progress: 120000/170896 (17000 URLs/s)
+    Train progress: 140000/170896 (17068 URLs/s)
+    Train progress: 160000/170896 (16947 URLs/s)
+    Train: 170896 done in 10.1s, 0 errors
+  Extracting validation features...
+    Val progress: 20000/31333 (18317 URLs/s)
+    Val: 31333 done in 1.7s, 0 errors
+  Extracting test features...
+    Test progress: 20000/46802 (17548 URLs/s)
+    Test progress: 40000/46802 (17492 URLs/s)
+    Test: 46802 done in 2.7s, 0 errors
+
+[PHASE G] Preprocessing (fit on training data only)...
+  Imputer fitted on 170896 training samples
+  Scaler fitted on training data. Means range: [0.00, 36.95]
+
+[PHASE H] Training Candidate Models...
+
+  Training LogisticRegression...
+    Trained in 0.4s
+    VAL  — F1=0.9957, Recall=0.9919, FPR=0.0002, FNR=0.0081
+    TEST — F1=0.9973, Recall=0.9948, FPR=0.0001, FNR=0.0052, TP=23480, FP=3, FN=123, TN=23196
+
+  Training RandomForest...
+    Trained in 4.7s
+    VAL  — F1=0.9966, Recall=0.9936, FPR=0.0002, FNR=0.0064
+    TEST — F1=0.9979, Recall=0.9959, FPR=0.0002, FNR=0.0041, TP=23507, FP=4, FN=96, TN=23195
+
+  Training XGBoost...
+    Trained in 0.9s
+    VAL  — F1=0.9968, Recall=0.9941, FPR=0.0002, FNR=0.0059
+    TEST — F1=0.998, Recall=0.9961, FPR=0.0, FNR=0.0039, TP=23512, FP=1, FN=91, TN=23198
+
+  Training LightGBM...
+    Trained in 3.7s
+    VAL  — F1=0.9967, Recall=0.9941, FPR=0.0003, FNR=0.0059
+    TEST — F1=0.998, Recall=0.9961, FPR=0.0001, FNR=0.0039, TP=23510, FP=3, FN=93, TN=23196
+
+  Training CatBoost...
+    Trained in 3.6s
+    VAL  — F1=0.9967, Recall=0.9937, FPR=0.0001, FNR=0.0063
+    TEST — F1=0.9978, Recall=0.9957, FPR=0.0001, FNR=0.0043, TP=23501, FP=2, FN=102, TN=23197
+
+[PHASE I] Robustness Testing...
+
+  Selected candidate: CatBoost (best validation PR-AUC)
+
+  --- Legitimate URL Robustness Test ---
+    PHISHING (99.8%) | Google homepage: https://www.google.com/
+    SAFE (100.0%) | Google search: https://www.google.com/search?q=hello
+    SAFE (99.9%) | YouTube search: https://www.youtube.com/results?search_query=test
+    PHISHING (100.0%) | Wikipedia article: https://en.wikipedia.org/wiki/Machine_learning
+    SAFE (99.3%) | Amazon search: https://www.amazon.com/s?k=laptop
+    PHISHING (99.9%) | Microsoft homepage: https://www.microsoft.com/en-us/
+    PHISHING (99.9%) | Apple homepage: https://www.apple.com/
+    PHISHING (97.2%) | GitHub search: https://github.com/search?q=machine+learning
+    PHISHING (100.0%) | StackOverflow: https://stackoverflow.com/questions/tagged/python
+    SAFE (97.5%) | Complex legit: https://www.example.com/products/item?id=12345&ref=homepage
+    PHISHING (100.0%) | BBC news: https://news.bbc.co.uk/article/2024/technology
+    PHISHING (100.0%) | Python docs: https://docs.python.org/3/library/json.html
+    PHISHING (100.0%) | LinkedIn profile: https://www.linkedin.com/in/johndoe/
+    PHISHING (100.0%) | Gmail inbox: https://mail.google.com/mail/u/0/#inbox
+    PHISHING (100.0%) | PayPal account: https://www.paypal.com/myaccount/summary
+
+  --- Phishing URL Robustness Test ---
+    PHISHING (99.9%) | PayPal impersonation: http://paypal-secure-login.evil.xyz/verify?user=123
+    PHISHING (100.0%) | IP-based login: http://192.168.1.100/admin/login.php
+    PHISHING (100.0%) | Google impersonation: https://google.account-verify.tk/signin
+    PHISHING (100.0%) | Amazon impersonation: http://amazon-security-alert.xyz/update-billing
+    PHISHING (100.0%) | Microsoft impersonation: https://login.microsoft.update.evil.com/password
+    PHISHING (100.0%) | Apple impersonation: http://apple-id-verify.ml/confirm-account
+    PHISHING (100.0%) | Generic phishing: http://secure-banking-update.click/credential
+    PHISHING (100.0%) | Facebook impersonation + port: https://facebook.login.evil.com:8080/verify
+    PHISHING (100.0%) | IDN phishing: http://xn--pypal-4qa.com/login
+    PHISHING (100.0%) | Shortened URL: http://bit.ly/3xAbCd
+    PHISHING (100.0%) | Redirect phishing: https://www.evil.com/redirect?url=http://phishing.com&login=true
+    PHISHING (100.0%) | IP + port + admin: http://192.168.0.1:4443/wp-admin/login.php?user=admin
+
+  Legit robustness: 4/15 correct (11 false positives)
+  Phish robustness: 12/12 correct (0 false negatives)
+
+[PHASE J] Confidence & Calibration Analysis...
+  Confidence range: [51.1%, 100.0%]
+  Mean confidence: 99.7%
+  Method: raw predict_proba (NOT calibrated)
+  Note: These are model probability estimates, NOT guaranteed real-world probabilities.
+  Mean Calibration Error (ECE): 0.1565
+  Calibration bins (predicted → actual):
+    Predicted=0.003 → Actual=0.003
+    Predicted=0.131 → Actual=0.071
+    Predicted=0.244 → Actual=0.167
+    Predicted=0.357 → Actual=0.750
+    Predicted=0.463 → Actual=0.600
+    Predicted=0.559 → Actual=1.000
+    Predicted=0.648 → Actual=0.800
+    Predicted=0.780 → Actual=1.000
+    Predicted=0.861 → Actual=0.778
+    Predicted=1.000 → Actual=1.000
+
+[PHASE K] Inference Performance...
+  Avg latency: 3.49 ms
+  Median latency: 3.64 ms
+  Max latency: 6.85 ms
+  Model size: 822.4 KB
+
+[PHASE L] Saving Model Artifacts...
+  Saved: url_logisticregression.joblib
+  Saved: url_randomforest.joblib
+  Saved: url_xgboost.joblib
+  Saved: url_lightgbm.joblib
+  Saved: url_catboost.joblib
+  Saved: url_imputer.joblib, url_scaler.joblib, url_feature_columns.joblib
+  Saved: model_metadata.json
+
+[PHASE M] Production Compatibility Test...
+  Feature count: 50 OK
+  Imputer: OK
+  Scaler: OK
+  Predict: 0 (expected 0=Safe) OK
+  Proba: [0.9996, 0.0004] OK
+  Classes: [0 1] OK
+  No NaN/Inf: OK
+
+[PHASE N] Security Check...
+  Feature extraction: pure string analysis (urlparse, regex) OK
+  No network requests made during extraction OK
+  No DNS resolution performed OK
+  No URL content downloaded OK
+  No JavaScript execution OK
+
+[PHASE O] Regression Check...
+  Production url_model.joblib SHA256: 8d730d74ca4f76f2e70cab7db181b3225aca649fe3813d66c06c9f48639b2067
+  Expected SHA256: 8d730d74ca4f76f2e70cab7db181b3225aca649fe3813d66c06c9f48639b2067
+  Production model unchanged: OK - UNCHANGED
+  Document model exists: True OK
+
+======================================================================
+PIPELINE COMPLETE
+Finished: 2026-09-22T00:26:32.633640
+======================================================================

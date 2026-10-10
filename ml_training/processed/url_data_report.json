@@ -1,0 +1,16 @@
+{
+  "dataset": "PhiUSIIL_Phishing_URL_Dataset.csv",
+  "raw_samples": 235795,
+  "valid_urls": 235370,
+  "duplicates_removed": 425,
+  "extraction_errors": 0,
+  "final_samples": 235370,
+  "num_features": 50,
+  "feature_schema_match": true,
+  "safe_count": 134850,
+  "phishing_count": 100520,
+  "null_values": 0,
+  "infinite_values": 0,
+  "extraction_time_seconds": 26.4,
+  "label_mapping": "PhiUSIIL label 1=legitimate->0=safe, label 0=phishing->1=phishing"
+}

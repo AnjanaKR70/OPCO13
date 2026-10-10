@@ -1,0 +1,128 @@
+==========================================
+ SCAMundo URL Model Diagnostic 
+==========================================
+
+# PHASE 1: Locate Feature Extraction Pipelines
+Training Extractor: hackx/jansuraksha/ml_training/02_extract_url_features.py
+Runtime Extractor: hackx/jansuraksha/backend/feature_extraction/url_feature_extractor.py
+Finding: The training pipeline IMPORTS the runtime extractor directly. Logic is 100% identical.
+
+# PHASE 2: Build a deterministic feature comparison
+Test URL: https://www.google.com/search?q=hello
+Raw features:
+  url_length: 37
+  domain_length: 14
+  path_length: 7
+  query_length: 7
+  fragment_length: 0
+  num_dots: 2
+  num_hyphens: 0
+  num_underscores: 0
+  num_slashes: 3
+  num_questionmarks: 1
+  num_equals: 1
+  num_ats: 0
+  num_ampersands: 0
+  num_exclamation: 0
+  num_tildes: 0
+  num_commas: 0
+  num_plus: 0
+  num_stars: 0
+  num_hash: 0
+  num_dollar: 0
+  num_percent: 0
+  num_digits: 0
+  num_letters: 29
+  digit_ratio: 0.0
+  special_char_ratio: 0.0541
+  is_https: 1
+  is_http: 0
+  has_port: 0
+  is_ip_address: 0
+  has_at_symbol: 0
+  subdomain_count: 0
+  domain_token_count: 2
+  tld_length: 4
+  is_high_risk_tld: 0
+  domain_entropy: 2.6464
+  path_token_count: 1
+  max_path_token_length: 6
+  query_param_count: 1
+  query_value_max_length: 5
+  has_redirect: 0
+  double_slash_redirect: 0
+  encoded_char_count: 0
+  has_encoded_chars: 0
+  obfuscation_score: 0
+  url_decode_diff: 0
+  suspicious_keyword_count: 1
+  has_suspicious_keywords: 1
+  brand_impersonation: 0
+  url_entropy: 4.0804
+  is_shortened: 0
+
+# PHASE 3: Verify the scaler input
+Scaled features for Google:
+  url_length: 0.0365 (Mean=35.4090, Scale=43.5580)
+  domain_length: -0.8166 (Mean=21.4683, Scale=9.1456)
+  path_length: 0.1293 (Mean=3.7346, Scale=25.2626)
+  query_length: 0.1864 (Mean=2.2409, Scale=25.5253)
+  fragment_length: -0.0078 (Mean=0.1515, Scale=19.4065)
+  num_dots: -0.2735 (Mean=2.2583, Scale=0.9443)
+  num_hyphens: -0.2150 (Mean=0.3519, Scale=1.6370)
+  num_underscores: -0.0606 (Mean=0.0355, Scale=0.5865)
+  num_slashes: 0.5409 (Mean=2.4338, Scale=1.0469)
+  num_questionmarks: 5.0344 (Mean=0.0293, Scale=0.1928)
+  num_equals: 0.9227 (Mean=0.0646, Scale=1.0137)
+  num_ats: -0.0728 (Mean=0.0074, Scale=0.1015)
+  num_ampersands: -0.0762 (Mean=0.0365, Scale=0.4790)
+  num_exclamation: -0.0130 (Mean=0.0002, Scale=0.0163)
+  num_tildes: -0.0112 (Mean=0.0003, Scale=0.0293)
+  num_commas: -0.0121 (Mean=0.0005, Scale=0.0420)
+  num_plus: -0.0154 (Mean=0.0014, Scale=0.0931)
+  num_stars: -0.0137 (Mean=0.0006, Scale=0.0468)
+  num_hash: -0.0610 (Mean=0.0037, Scale=0.0608)
+  num_dollar: -0.0087 (Mean=0.0002, Scale=0.0177)
+  num_percent: -0.0288 (Mean=0.0258, Scale=0.8952)
+  num_digits: -0.1495 (Mean=1.8982, Scale=12.6959)
+  num_letters: 0.0585 (Mean=27.2324, Scale=30.2276)
+  digit_ratio: -0.4033 (Mean=0.0284, Scale=0.0703)
+  special_char_ratio: 2.2862 (Mean=0.0090, Scale=0.0197)
+  is_https: 0.5303 (Mean=0.7805, Scale=0.4139)
+  is_http: -0.5303 (Mean=0.2195, Scale=0.4139)
+  has_port: -0.0113 (Mean=0.0001, Scale=0.0113)
+  is_ip_address: -0.0510 (Mean=0.0026, Scale=0.0509)
+  has_at_symbol: -0.0804 (Mean=0.0064, Scale=0.0799)
+  subdomain_count: -0.6126 (Mean=0.4155, Scale=0.6783)
+  domain_token_count: -0.6126 (Mean=2.4155, Scale=0.6783)
+  tld_length: 0.3944 (Mean=3.7636, Scale=0.5993)
+  is_high_risk_tld: -0.2487 (Mean=0.0582, Scale=0.2342)
+  domain_entropy: -1.8107 (Mean=3.4168, Scale=0.4255)
+  path_token_count: 0.8539 (Mean=0.2510, Scale=0.8772)
+  max_path_token_length: 0.3530 (Mean=2.3641, Scale=10.2999)
+  query_param_count: 1.9737 (Mean=0.0512, Scale=0.4807)
+  query_value_max_length: 0.2439 (Mean=0.9974, Scale=16.4113)
+  has_redirect: -0.0571 (Mean=0.0032, Scale=0.0569)
+  double_slash_redirect: -0.0550 (Mean=0.0053, Scale=0.0964)
+  encoded_char_count: -0.0288 (Mean=0.0258, Scale=0.8952)
+  has_encoded_chars: -0.0618 (Mean=0.0038, Scale=0.0615)
+  obfuscation_score: -0.0543 (Mean=0.0513, Scale=0.9446)
+  url_decode_diff: -0.0618 (Mean=0.0038, Scale=0.0615)
+  suspicious_keyword_count: 2.3365 (Mean=0.0939, Scale=0.3878)
+  has_suspicious_keywords: 3.5953 (Mean=0.0718, Scale=0.2582)
+  brand_impersonation: -0.0952 (Mean=0.0090, Scale=0.0944)
+  url_entropy: 0.3805 (Mean=3.9604, Scale=0.3153)
+  is_shortened: -0.1945 (Mean=0.0365, Scale=0.1875)
+
+# Comparison with Training Data Distribution
+  has_suspicious_keywords - Training Mean: 0.0717, Max: 1.0000
+  suspicious_keyword_count - Training Mean: 0.0939, Max: 6.0000
+  url_length - Training Mean: 35.3399, Max: 6097.0000
+  domain_length - Training Mean: 21.4547, Max: 110.0000
+
+# PHASE 4: Check label mapping
+Model metadata label mapping: {'0': 'safe', '1': 'phishing'}
+Model internal classes_: [0 1]
+
+# PHASE 5: Prediction Check
+Prediction for Google: Class=1, Proba=[3.6358833e-05 9.9996364e-01]

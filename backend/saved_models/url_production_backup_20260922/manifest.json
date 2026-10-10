@@ -1,0 +1,31 @@
+{
+  "backup_date": "2026-09-22T00:14:45.717344",
+  "source": "c:\\Users\\Afshin muhammed k p\\scamundo\\hackx\\jansuraksha\\backend\\saved_models",
+  "files": {
+    "url_model.joblib": {
+      "md5": "a2f546b4f8abd87acd6783d2f04af39d",
+      "sha256": "8d730d74ca4f76f2e70cab7db181b3225aca649fe3813d66c06c9f48639b2067",
+      "size": 544644
+    },
+    "url_imputer.joblib": {
+      "md5": "a8c4bfe63216404879cceddf40017ab1",
+      "sha256": "9fb9dbdaa13ea50cfc81190310c2d4de81b72ebe6c296f11a788bbce20ed6f87",
+      "size": 1959
+    },
+    "url_scaler.joblib": {
+      "md5": "9c72450a9229713403802d996c36449b",
+      "sha256": "3f2879c2ff14c47399b1fac2f5411ac4c48f39109912b536f943e1e1dab5a57c",
+      "size": 1815
+    },
+    "url_feature_columns.joblib": {
+      "md5": "5da584d3d4b5e03ac663244328a392ba",
+      "sha256": "f95b9bdad54feaccf2387f123c08a81ae07583e90cabf456f24a6da8e4ac6925",
+      "size": 838
+    },
+    "model_metadata.json": {
+      "md5": "01fdbce7a6643863613274542483a282",
+      "sha256": "fabe7f79ad612c940aa0f967e9610018e12a643b513379e5cbde3ef759595032",
+      "size": 9534
+    }
+  }
+}

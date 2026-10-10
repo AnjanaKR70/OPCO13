@@ -1,1 +1,0 @@
-# SCAMഉണ്ടോ Backend Application

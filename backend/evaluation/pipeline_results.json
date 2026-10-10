@@ -1,0 +1,372 @@
+{
+  "original_count": 235795,
+  "deduped_count": 235370,
+  "duplicates_removed": 425,
+  "unique_domains": 157373,
+  "synthetic_count": 13661,
+  "train_size": 170896,
+  "val_size": 31333,
+  "test_size": 46802,
+  "domain_leakage_train_val": 0,
+  "domain_leakage_train_test": 0,
+  "domain_leakage_val_test": 0,
+  "selected_model": "CatBoost",
+  "val_results": [
+    {
+      "model_name": "LogisticRegression",
+      "accuracy": 0.9971,
+      "precision": 0.9995,
+      "recall": 0.9919,
+      "f1": 0.9957,
+      "roc_auc": 0.998,
+      "pr_auc": 0.9981,
+      "tp": 10674,
+      "tn": 20567,
+      "fp": 5,
+      "fn": 87,
+      "fpr": 0.0002,
+      "fnr": 0.0081,
+      "train_time_s": 0.4
+    },
+    {
+      "model_name": "RandomForest",
+      "accuracy": 0.9976,
+      "precision": 0.9995,
+      "recall": 0.9936,
+      "f1": 0.9966,
+      "roc_auc": 0.9977,
+      "pr_auc": 0.998,
+      "tp": 10692,
+      "tn": 20567,
+      "fp": 5,
+      "fn": 69,
+      "fpr": 0.0002,
+      "fnr": 0.0064,
+      "train_time_s": 4.7
+    },
+    {
+      "model_name": "XGBoost",
+      "accuracy": 0.9978,
+      "precision": 0.9995,
+      "recall": 0.9941,
+      "f1": 0.9968,
+      "roc_auc": 0.9981,
+      "pr_auc": 0.9982,
+      "tp": 10698,
+      "tn": 20567,
+      "fp": 5,
+      "fn": 63,
+      "fpr": 0.0002,
+      "fnr": 0.0059,
+      "train_time_s": 0.9
+    },
+    {
+      "model_name": "LightGBM",
+      "accuracy": 0.9977,
+      "precision": 0.9993,
+      "recall": 0.9941,
+      "f1": 0.9967,
+      "roc_auc": 0.998,
+      "pr_auc": 0.9981,
+      "tp": 10697,
+      "tn": 20565,
+      "fp": 7,
+      "fn": 64,
+      "fpr": 0.0003,
+      "fnr": 0.0059,
+      "train_time_s": 3.7
+    },
+    {
+      "model_name": "CatBoost",
+      "accuracy": 0.9977,
+      "precision": 0.9997,
+      "recall": 0.9937,
+      "f1": 0.9967,
+      "roc_auc": 0.9983,
+      "pr_auc": 0.9984,
+      "tp": 10693,
+      "tn": 20569,
+      "fp": 3,
+      "fn": 68,
+      "fpr": 0.0001,
+      "fnr": 0.0063,
+      "train_time_s": 3.6
+    }
+  ],
+  "test_results": [
+    {
+      "model_name": "LogisticRegression",
+      "accuracy": 0.9973,
+      "precision": 0.9999,
+      "recall": 0.9948,
+      "f1": 0.9973,
+      "roc_auc": 0.9986,
+      "pr_auc": 0.9991,
+      "tp": 23480,
+      "tn": 23196,
+      "fp": 3,
+      "fn": 123,
+      "fpr": 0.0001,
+      "fnr": 0.0052
+    },
+    {
+      "model_name": "RandomForest",
+      "accuracy": 0.9979,
+      "precision": 0.9998,
+      "recall": 0.9959,
+      "f1": 0.9979,
+      "roc_auc": 0.9989,
+      "pr_auc": 0.9993,
+      "tp": 23507,
+      "tn": 23195,
+      "fp": 4,
+      "fn": 96,
+      "fpr": 0.0002,
+      "fnr": 0.0041
+    },
+    {
+      "model_name": "XGBoost",
+      "accuracy": 0.998,
+      "precision": 1.0,
+      "recall": 0.9961,
+      "f1": 0.998,
+      "roc_auc": 0.9988,
+      "pr_auc": 0.9992,
+      "tp": 23512,
+      "tn": 23198,
+      "fp": 1,
+      "fn": 91,
+      "fpr": 0.0,
+      "fnr": 0.0039
+    },
+    {
+      "model_name": "LightGBM",
+      "accuracy": 0.9979,
+      "precision": 0.9999,
+      "recall": 0.9961,
+      "f1": 0.998,
+      "roc_auc": 0.9987,
+      "pr_auc": 0.9992,
+      "tp": 23510,
+      "tn": 23196,
+      "fp": 3,
+      "fn": 93,
+      "fpr": 0.0001,
+      "fnr": 0.0039
+    },
+    {
+      "model_name": "CatBoost",
+      "accuracy": 0.9978,
+      "precision": 0.9999,
+      "recall": 0.9957,
+      "f1": 0.9978,
+      "roc_auc": 0.9989,
+      "pr_auc": 0.9993,
+      "tp": 23501,
+      "tn": 23197,
+      "fp": 2,
+      "fn": 102,
+      "fpr": 0.0001,
+      "fnr": 0.0043
+    }
+  ],
+  "legit_robustness": [
+    {
+      "url": "https://www.google.com/",
+      "desc": "Google homepage",
+      "pred": 1,
+      "conf": 99.8,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.google.com/search?q=hello",
+      "desc": "Google search",
+      "pred": 0,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.youtube.com/results?search_query=test",
+      "desc": "YouTube search",
+      "pred": 0,
+      "conf": 99.9,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Machine_learning",
+      "desc": "Wikipedia article",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.amazon.com/s?k=laptop",
+      "desc": "Amazon search",
+      "pred": 0,
+      "conf": 99.3,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/",
+      "desc": "Microsoft homepage",
+      "pred": 1,
+      "conf": 99.9,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.apple.com/",
+      "desc": "Apple homepage",
+      "pred": 1,
+      "conf": 99.9,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://github.com/search?q=machine+learning",
+      "desc": "GitHub search",
+      "pred": 1,
+      "conf": 97.2,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://stackoverflow.com/questions/tagged/python",
+      "desc": "StackOverflow",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.example.com/products/item?id=12345&ref=homepage",
+      "desc": "Complex legit",
+      "pred": 0,
+      "conf": 97.5,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://news.bbc.co.uk/article/2024/technology",
+      "desc": "BBC news",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://docs.python.org/3/library/json.html",
+      "desc": "Python docs",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.linkedin.com/in/johndoe/",
+      "desc": "LinkedIn profile",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "desc": "Gmail inbox",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 0,
+      "brand_imp": 0
+    },
+    {
+      "url": "https://www.paypal.com/myaccount/summary",
+      "desc": "PayPal account",
+      "pred": 1,
+      "conf": 100.0,
+      "kw_count": 1,
+      "brand_imp": 0
+    }
+  ],
+  "phish_robustness": [
+    {
+      "url": "http://paypal-secure-login.evil.xyz/verify?user=123",
+      "desc": "PayPal impersonation",
+      "pred": 1,
+      "conf": 99.9
+    },
+    {
+      "url": "http://192.168.1.100/admin/login.php",
+      "desc": "IP-based login",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "https://google.account-verify.tk/signin",
+      "desc": "Google impersonation",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "http://amazon-security-alert.xyz/update-billing",
+      "desc": "Amazon impersonation",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "https://login.microsoft.update.evil.com/password",
+      "desc": "Microsoft impersonation",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "http://apple-id-verify.ml/confirm-account",
+      "desc": "Apple impersonation",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "http://secure-banking-update.click/credential",
+      "desc": "Generic phishing",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "https://facebook.login.evil.com:8080/verify",
+      "desc": "Facebook impersonation + port",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "http://xn--pypal-4qa.com/login",
+      "desc": "IDN phishing",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "http://bit.ly/3xAbCd",
+      "desc": "Shortened URL",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "https://www.evil.com/redirect?url=http://phishing.com&login=true",
+      "desc": "Redirect phishing",
+      "pred": 1,
+      "conf": 100.0
+    },
+    {
+      "url": "http://192.168.0.1:4443/wp-admin/login.php?user=admin",
+      "desc": "IP + port + admin",
+      "pred": 1,
+      "conf": 100.0
+    }
+  ],
+  "legit_fp_count": 11,
+  "phish_fn_count": 0,
+  "prod_model_hash_match": true
+}

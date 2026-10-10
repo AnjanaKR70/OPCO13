@@ -1,7 +1,0 @@
-﻿Analyzing scamundo...                                           
-
-   info - Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation - lib\screens\alerts_tab.dart:74:25 - prefer_const_constructors
-   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement - lib\screens\settings_tab.dart:102:13 - deprecated_member_use
-warning - Unused import: 'package:flutter/material.dart'. Try removing the import directive - lib\services\issues_service.dart:1:8 - unused_import
-  error - The name 'MyApp' isn't a class. Try correcting the name to match an existing class - test\widget_test.dart:16:35 - creation_with_non_type
-
